@@ -17,4 +17,7 @@ public class CarService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+    public Iterable<CarEntity> getAll() {
+        return repo.findAll();
+    }
 }

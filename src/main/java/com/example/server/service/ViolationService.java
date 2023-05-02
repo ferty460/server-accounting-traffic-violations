@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.entity.CarEntity;
 import com.example.server.entity.DriverEntity;
 import com.example.server.entity.ViolationEntity;
 import com.example.server.repo.DriverRepo;
@@ -16,5 +17,8 @@ public class ViolationService {
     }
     public void delete(Long id) {
         repo.deleteById(id);
+    }
+    public Iterable<ViolationEntity> getAll() {
+        return repo.findAll();
     }
 }
