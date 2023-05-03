@@ -11,8 +11,8 @@ public class CarService {
     public CarService(CarRepo repo) {
         this.repo = repo;
     }
-    public void save(CarEntity car) {
-        repo.save(car);
+    public CarEntity save(CarEntity car) {
+        return repo.save(car);
     }
     public void delete(Long id) {
         repo.deleteById(id);

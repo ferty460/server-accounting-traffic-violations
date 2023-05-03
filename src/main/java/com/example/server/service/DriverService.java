@@ -12,8 +12,8 @@ public class DriverService {
     public DriverService(DriverRepo repo) {
         this.repo = repo;
     }
-    public void save(DriverEntity driver) {
-        repo.save(driver);
+    public DriverEntity save(DriverEntity driver) {
+        return repo.save(driver);
     }
     public void delete(Long id) {
         repo.deleteById(id);

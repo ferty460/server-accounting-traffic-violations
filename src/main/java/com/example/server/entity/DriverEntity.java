@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Data
@@ -12,7 +13,7 @@ public class DriverEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long driver_Id;
+    private Long driver_Id;
 
     @NotBlank(message = "Поле для ФИО не может быть пустым")
     private String fullName;
@@ -25,4 +26,7 @@ public class DriverEntity {
 
     @NotBlank(message = "Поле для Даты рождения не может быть пустым")
     private String birthday;
+
+    @OneToMany(mappedBy = "driver")
+    private List<ViolationEntity> violations;
 }
