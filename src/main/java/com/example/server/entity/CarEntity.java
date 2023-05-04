@@ -21,6 +21,6 @@ public class CarEntity {
     @NotBlank(message = "Поле Номер автомобиля не может быть пустым")
     private String number;
 
-    @OneToMany(mappedBy = "driver")
+    @OneToMany(mappedBy = "car")
     private List<ViolationEntity> violations;
 }
