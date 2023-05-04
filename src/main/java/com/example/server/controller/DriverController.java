@@ -1,13 +1,14 @@
 package com.example.server.controller;
 
-import com.example.server.response.BaseResponse;
-import com.example.server.response.CarListResponse;
-import com.example.server.response.DriverListResponse;
+import com.example.server.entity.CarEntity;
+import com.example.server.entity.DriverEntity;
+import com.example.server.entity.ViolationEntity;
+import com.example.server.response.*;
 import com.example.server.service.DriverService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/v1/driver")
@@ -22,5 +23,35 @@ public class DriverController {
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAll() {
         return ResponseEntity.ok(new DriverListResponse(service.getAll()));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<BaseResponse> save(@Valid @RequestBody DriverEntity data) {
+        try {
+            DriverEntity temp = service.save(data);
+            return ResponseEntity.ok(new DriverResponse(true, "Автомобиль добавлен", temp));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<BaseResponse> delete(@RequestParam("id") DriverEntity data) {
+        try {
+            service.delete(data.getDriver_Id());
+            return ResponseEntity.ok(new BaseResponse(true, "Водитель удален"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<BaseResponse> update(@RequestBody DriverEntity data) {
+        try {
+            service.save(data);
+            return ResponseEntity.ok(new DriverResponse(true, "В штраф внесены изменения", data));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));
+        }
     }
 }

@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -19,15 +18,6 @@ public class ViolationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long violation_Id;
 
-    @NotBlank(message = "Поле для Даты нарушения не может быть пустым")
-    private Date time;
-
-    @NotBlank(message = "Поле для Вида нарушения не может быть пустым")
-    private String kind;
-
-    @NotBlank(message = "Поле для Штрафа не может быть пустым")
-    private int penalty;
-
     @ManyToOne
     @JoinColumn(name = "car_Id")
     private CarEntity car;
@@ -35,4 +25,10 @@ public class ViolationEntity {
     @ManyToOne
     @JoinColumn(name = "driver_Id")
     private DriverEntity driver;
+
+    @ManyToOne
+    @JoinColumn(name = "penalty_Id")
+    private PenaltyEntity penalty;
+
+    private Date time;
 }

@@ -1,9 +1,11 @@
 package com.example.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,8 +27,9 @@ public class DriverEntity {
     private String passportNumber;
 
     @NotBlank(message = "Поле для Даты рождения не может быть пустым")
-    private String birthday;
+    private Date birthday;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "driver")
     private List<ViolationEntity> violations;
 }
