@@ -30,5 +30,7 @@ public class ViolationEntity {
     @JoinColumn(name = "penalty_Id")
     private PenaltyEntity penalty;
 
+    private int paid;
+
     private Date time;
 }
