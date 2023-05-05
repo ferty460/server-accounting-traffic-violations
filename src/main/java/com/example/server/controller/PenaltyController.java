@@ -50,7 +50,7 @@ public class PenaltyController {
     public ResponseEntity<BaseResponse> update(@RequestBody PenaltyEntity data) {
         try {
             service.save(data);
-            return ResponseEntity.ok(new PenaltyResponse(true, "В штраф внесены изменения", data));
+            return ResponseEntity.ok(new PenaltyResponse(true, "В данные штрафа внесены изменения", data));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new PenaltyResponse(false, e.getMessage(), null));
         }

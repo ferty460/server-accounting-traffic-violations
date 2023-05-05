@@ -11,7 +11,7 @@ public class CarValidationUtils {
         }
         String number = car.getNumber();
         if (number == null || number.isBlank() || !(number.matches("[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}"))) {
-            throw new ValidationExceptionCar("Поле \"Номер автомобиля\" не должен быть пустым");
+            throw new ValidationExceptionCar("Поле \"Номер автомобиля\" не соответствует формату (А111АА)");
         }
     }
 }

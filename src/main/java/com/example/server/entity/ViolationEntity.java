@@ -3,6 +3,7 @@ package com.example.server.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -16,10 +16,8 @@ public class CarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long car_Id;
 
-    @NotBlank(message = "Поле Марка автомобиля не может быть пустым")
     private String brand;
 
-    @NotBlank(message = "Поле Номер автомобиля не может быть пустым")
     private String number;
 
     @JsonIgnore

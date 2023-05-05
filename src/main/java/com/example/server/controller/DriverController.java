@@ -29,7 +29,7 @@ public class DriverController {
     public ResponseEntity<BaseResponse> save(@Valid @RequestBody DriverEntity data) {
         try {
             DriverEntity temp = service.save(data);
-            return ResponseEntity.ok(new DriverResponse(true, "Автомобиль добавлен", temp));
+            return ResponseEntity.ok(new DriverResponse(true, "Водитель добавлен", temp));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));
         }
@@ -49,7 +49,7 @@ public class DriverController {
     public ResponseEntity<BaseResponse> update(@RequestBody DriverEntity data) {
         try {
             service.save(data);
-            return ResponseEntity.ok(new DriverResponse(true, "В штраф внесены изменения", data));
+            return ResponseEntity.ok(new DriverResponse(true, "В данные об автомобиле внесены изменения", data));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));
         }

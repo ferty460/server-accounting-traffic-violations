@@ -18,6 +18,8 @@ public class PenaltyEntity {
 
     private String kind;
 
+    private String description;
+
     private int penalty;
 
     @JsonIgnore

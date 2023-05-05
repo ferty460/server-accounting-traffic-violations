@@ -3,6 +3,7 @@ package com.example.server.service;
 import com.example.server.entity.CarEntity;
 import com.example.server.entity.DriverEntity;
 import com.example.server.repo.DriverRepo;
+import com.example.server.utils.DriverValidationUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class DriverService {
         this.repo = repo;
     }
     public DriverEntity save(DriverEntity driver) {
+        DriverValidationUtils.validateDriver(driver);
         return repo.save(driver);
     }
     public void delete(Long id) {

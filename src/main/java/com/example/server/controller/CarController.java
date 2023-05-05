@@ -52,7 +52,7 @@ public class CarController {
     public ResponseEntity<BaseResponse> update(@RequestBody CarEntity data) {
         try {
             service.save(data);
-            return ResponseEntity.ok(new CarResponse(true, "В штраф внесены изменения", data));
+            return ResponseEntity.ok(new CarResponse(true, "В данные автомобиля внесены изменения", data));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new CarResponse(false, e.getMessage(), null));
         }

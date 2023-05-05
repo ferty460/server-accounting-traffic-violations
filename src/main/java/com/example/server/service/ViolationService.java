@@ -5,6 +5,7 @@ import com.example.server.entity.DriverEntity;
 import com.example.server.entity.ViolationEntity;
 import com.example.server.repo.DriverRepo;
 import com.example.server.repo.ViolationRepo;
+import com.example.server.utils.ViolationValidationUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class ViolationService {
         this.repo = repo;
     }
     public ViolationEntity save(ViolationEntity violation) {
+        ViolationValidationUtils.validateViolation(violation);
         return repo.save(violation);
     }
     public void delete(Long id) {
