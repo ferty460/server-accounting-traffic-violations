@@ -27,5 +27,9 @@ public class DriverEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "driver")
+    private List<CarEntity> cars;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "driver")
     private List<ViolationEntity> violations;
 }

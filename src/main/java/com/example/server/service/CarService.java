@@ -1,6 +1,7 @@
 package com.example.server.service;
 
 import com.example.server.entity.CarEntity;
+import com.example.server.entity.DriverEntity;
 import com.example.server.repo.CarRepo;
 import com.example.server.utils.CarValidationUtils;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,8 @@ public class CarService {
     }
     public Iterable<CarEntity> getAll() {
         return repo.findAll();
+    }
+    public Iterable<CarEntity> getAllByDriver(DriverEntity driver) {
+        return repo.findAllByDriver(driver);
     }
 }

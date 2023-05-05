@@ -20,6 +20,10 @@ public class CarEntity {
 
     private String number;
 
+    @ManyToOne
+    @JoinColumn(name = "driver_Id")
+    private DriverEntity driver;
+
     @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List<ViolationEntity> violations;

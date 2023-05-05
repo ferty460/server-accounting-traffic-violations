@@ -25,4 +25,7 @@ public class ViolationService {
     public Iterable<ViolationEntity> getAll() {
         return repo.findAll();
     }
+    public Iterable<ViolationEntity> getAllByDriver(DriverEntity driver) {
+        return repo.findAllByDriver(driver);
+    }
 }

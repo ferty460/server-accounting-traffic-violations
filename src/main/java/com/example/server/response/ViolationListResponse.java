@@ -11,7 +11,7 @@ public class ViolationListResponse extends BaseResponse {
 
     private Iterable<ViolationEntity> data;
     public ViolationListResponse(Iterable<ViolationEntity> data) {
-        super(true, "Водители");
+        super(true, "Нарушения");
         this.data = data;
     }
 }

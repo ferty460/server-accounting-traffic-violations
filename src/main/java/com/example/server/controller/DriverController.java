@@ -1,8 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.entity.CarEntity;
 import com.example.server.entity.DriverEntity;
-import com.example.server.entity.ViolationEntity;
 import com.example.server.response.*;
 import com.example.server.service.DriverService;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +50,16 @@ public class DriverController {
             return ResponseEntity.ok(new DriverResponse(true, "В данные об автомобиле внесены изменения", data));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/passport")
+    public ResponseEntity<BaseResponse> getByPassport(@RequestParam("series") String series, @RequestParam("number") String number) {
+        try {
+            DriverEntity data = service.getByPassport(series, number);
+            return ResponseEntity.ok(new DriverResponse(true, "Водитель", data));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }
     }
 }

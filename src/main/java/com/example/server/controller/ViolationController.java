@@ -54,4 +54,9 @@ public class ViolationController {
             return ResponseEntity.badRequest().body(new ViolationResponse(false, e.getMessage(), null));
         }
     }
+
+    @GetMapping("/all_byDriver")
+    public ResponseEntity<BaseResponse> getAllByDriver(@RequestParam("id") DriverEntity driver) {
+        return ResponseEntity.ok(new ViolationListResponse(service.getAllByDriver(driver)));
+    }
 }

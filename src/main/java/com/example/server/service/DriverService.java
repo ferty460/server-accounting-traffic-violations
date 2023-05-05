@@ -1,6 +1,5 @@
 package com.example.server.service;
 
-import com.example.server.entity.CarEntity;
 import com.example.server.entity.DriverEntity;
 import com.example.server.repo.DriverRepo;
 import com.example.server.utils.DriverValidationUtils;
@@ -22,5 +21,8 @@ public class DriverService {
     }
     public Iterable<DriverEntity> getAll() {
         return repo.findAll();
+    }
+    public DriverEntity getByPassport(String series, String number) {
+        return repo.findByPassportSeriesAndPassportNumber(series, number);
     }
 }

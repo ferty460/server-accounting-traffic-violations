@@ -57,4 +57,9 @@ public class CarController {
             return ResponseEntity.badRequest().body(new CarResponse(false, e.getMessage(), null));
         }
     }
+
+    @GetMapping("/all_byDriver")
+    public ResponseEntity<BaseResponse> getAllByDriver(@RequestParam("id") DriverEntity driver) {
+        return ResponseEntity.ok(new CarListResponse(service.getAllByDriver(driver)));
+    }
 }
