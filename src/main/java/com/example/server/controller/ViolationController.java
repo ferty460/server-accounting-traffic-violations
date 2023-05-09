@@ -20,11 +20,13 @@ public class ViolationController {
         this.service = service;
     }
 
+    // все водители
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> all() {
         return ResponseEntity.ok(new ViolationListResponse(service.getAll()));
     }
 
+    // добавление
     @PostMapping("/add")
     public ResponseEntity<BaseResponse> save(@Valid @RequestBody ViolationEntity data) {
         try {
@@ -35,6 +37,7 @@ public class ViolationController {
         }
     }
 
+    // удаление по id
     @DeleteMapping("/delete")
     public ResponseEntity<BaseResponse> delete(@RequestParam("id") ViolationEntity data) {
         try {
@@ -45,6 +48,7 @@ public class ViolationController {
         }
     }
 
+    // редактирование
     @PostMapping("/update")
     public ResponseEntity<BaseResponse> update(@RequestBody ViolationEntity data) {
         try {
@@ -55,6 +59,7 @@ public class ViolationController {
         }
     }
 
+    // список нарушений владельца
     @GetMapping("/all_byDriver")
     public ResponseEntity<BaseResponse> getAllByDriver(@RequestParam("id") DriverEntity driver) {
         return ResponseEntity.ok(new ViolationListResponse(service.getAllByDriver(driver)));

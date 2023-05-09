@@ -1,9 +1,11 @@
 package com.example.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.implementation.bind.annotation.Default;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,5 +35,6 @@ public class ViolationEntity {
 
     private int paid;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date time;
 }

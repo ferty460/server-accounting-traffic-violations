@@ -2,6 +2,7 @@ package com.example.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public class DriverEntity {
 
     private String passportNumber;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date birthday;
 
     @JsonIgnore

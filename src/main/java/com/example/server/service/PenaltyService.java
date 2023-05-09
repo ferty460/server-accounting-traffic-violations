@@ -13,13 +13,19 @@ public class PenaltyService {
     public PenaltyService(PenaltyRepo repo) {
         this.repo = repo;
     }
+
+    // добавление
     public PenaltyEntity save(PenaltyEntity penalty) {
-        PenaltyValidationUtils.validatePenalty(penalty);
+        PenaltyValidationUtils.validatePenalty(penalty); // валидация
         return repo.save(penalty);
     }
+
+    // удаление по id
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    // все штрафы
     public Iterable<PenaltyEntity> getAll() {
         return repo.findAll();
     }

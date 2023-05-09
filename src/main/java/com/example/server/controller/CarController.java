@@ -23,11 +23,13 @@ public class CarController {
         this.service = service;
     }
 
+    // все авто
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAll() {
         return ResponseEntity.ok(new CarListResponse(service.getAll()));
     }
 
+    // добавление
     @PostMapping("/add")
     public ResponseEntity<BaseResponse> save(@Valid @RequestBody CarEntity data) {
         try {
@@ -38,6 +40,7 @@ public class CarController {
         }
     }
 
+    // удаление по id
     @DeleteMapping("/delete")
     public ResponseEntity<BaseResponse> delete(@RequestParam("id") CarEntity data) {
         try {
@@ -48,6 +51,7 @@ public class CarController {
         }
     }
 
+    // редактирование
     @PostMapping("/update")
     public ResponseEntity<BaseResponse> update(@RequestBody CarEntity data) {
         try {
@@ -58,6 +62,7 @@ public class CarController {
         }
     }
 
+    // список авто, принадлежащих какому-либо водителю
     @GetMapping("/all_byDriver")
     public ResponseEntity<BaseResponse> getAllByDriver(@RequestParam("id") DriverEntity driver) {
         return ResponseEntity.ok(new CarListResponse(service.getAllByDriver(driver)));

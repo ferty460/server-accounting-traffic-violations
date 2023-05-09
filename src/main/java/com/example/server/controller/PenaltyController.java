@@ -21,11 +21,13 @@ public class PenaltyController {
         this.service = service;
     }
 
+    // все штрафы
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> all() {
         return ResponseEntity.ok(new PenaltyListResponse(service.getAll()));
     }
 
+    // добавление
     @PostMapping("/add")
     public ResponseEntity<BaseResponse> save(@Valid @RequestBody PenaltyEntity data) {
         try {
@@ -36,6 +38,7 @@ public class PenaltyController {
         }
     }
 
+    // удаление по id
     @DeleteMapping("/delete")
     public ResponseEntity<BaseResponse> delete(@RequestParam("id") PenaltyEntity data) {
         try {
@@ -46,6 +49,7 @@ public class PenaltyController {
         }
     }
 
+    // редактирование
     @PostMapping("/update")
     public ResponseEntity<BaseResponse> update(@RequestBody PenaltyEntity data) {
         try {

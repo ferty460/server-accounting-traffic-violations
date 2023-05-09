@@ -13,16 +13,24 @@ public class CarService {
     public CarService(CarRepo repo) {
         this.repo = repo;
     }
+
+    // добавление
     public CarEntity save(CarEntity car) {
-        CarValidationUtils.validateCars(car);
+        CarValidationUtils.validateCars(car); // валидация
         return repo.save(car);
     }
+
+    // удаление по id
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    // все авто
     public Iterable<CarEntity> getAll() {
         return repo.findAll();
     }
+
+    // поиск по водителю
     public Iterable<CarEntity> getAllByDriver(DriverEntity driver) {
         return repo.findAllByDriver(driver);
     }

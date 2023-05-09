@@ -1,0 +1,81 @@
+Driver:
+            все водители:
+[GET]       http://localhost:2825/api/v1/driver/all
+
+            добавление:
+[POST]      http://localhost:2825/api/v1/driver/add
+
+            удаление по id:
+[DELETE]    http://localhost:2825/api/v1/driver/delete?id=12
+
+            редактирование:
+[POST]      http://localhost:2825/api/v1/driver/update
+
+            поиск по данным паспорта:
+[GET]       http://localhost:2825/api/v1/driver/passport?series=1234&number=123456
+
+            поиск по номеру авто:
+[GET]       http://localhost:2825/api/v1/driver/car?number=A089PO
+
+            поиск всех по дате нарушения:
+[GET]       http://localhost:2825/api/v1/driver/violation?time=2020-03-23
+
+            поиск всех, у кого сумма штрафов больше ук. значения:
+[GET]       http://localhost:2825/api/v1/driver/penalties_sum?n=1000
+
+            поиск всех, у кого больше одного нарушения:
+[GET]       http://localhost:2825/api/v1/driver/violations_greater1
+
+            список водителей с определенным нарушением:
+[GET]       http://localhost:2825/api/v1/driver/violations?kind=Непристегнутый ремень
+
+            список водителей, оплативших только часть штрафа:
+[GET]       http://localhost:2825/api/v1/driver/paid_lessPenalty
+
+            список водителей, не оплативших штраф:
+[GET]       http://localhost:2825/api/v1/driver/paid_equal0
+---------------------------------------------------
+Car:
+            все авто:
+[GET]       http://localhost:2825/api/v1/car/all
+
+            добавление:
+[POST]      http://localhost:2825/api/v1/car/add
+
+            удаление по id:
+[DELETE]    http://localhost:2825/api/v1/car/delete?id=12
+
+            редактирование:
+[POST]      http://localhost:2825/api/v1/car/update
+
+            список авто, принадлежащих какому-либо водителю:
+[GET]       http://localhost:2825/api/v1/car/all_byDriver?id=12
+---------------------------------------------------
+Penalty:
+            все штрафы:
+[GET]       http://localhost:2825/api/v1/penalty/all
+
+            добавление:
+[POST]      http://localhost:2825/api/v1/penalty/add
+
+            удаление по id:
+[DELETE]    http://localhost:2825/api/v1/penalty/delete?id=12
+
+            редактирование:
+[POST]      http://localhost:2825/api/v1/penalty/update
+---------------------------------------------------
+Violation:
+            все нарушения:
+[GET]       http://localhost:2825/api/v1/violation/all
+
+            добавление:
+[POST]      http://localhost:2825/api/v1/violation/add
+
+            удаление по id:
+[DELETE]    http://localhost:2825/api/v1/violation/delete?id=12
+
+            редактирование:
+[POST]      http://localhost:2825/api/v1/violation/update
+
+            список нарушений, совершенных каким-либо водителем:
+[GET]       http://localhost:2825/api/v1/violation/all_byDriver?id=12

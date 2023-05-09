@@ -28,7 +28,7 @@ public class DriverValidationUtils {
         Date today = Calendar.getInstance().getTime();
         Calendar max = new GregorianCalendar(1910, 0,1);
         if (birthday == null) {
-            throw new ValidationExceptionDriver("Поле \"Дата рождения\" не соответствует формату(2023-05-05)");
+            throw new ValidationExceptionDriver("Поле \"Дата рождения\" не соответствует формату (2023-05-05)");
         } else if (birthday.after(today) || birthday.before(max.getTime())) {
             throw new ValidationExceptionDriver("Не раньше сегодняшнего дня и не позже 01.01.1910");
         }

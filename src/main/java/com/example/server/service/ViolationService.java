@@ -15,16 +15,24 @@ public class ViolationService {
     public ViolationService(ViolationRepo repo) {
         this.repo = repo;
     }
+
+    // добавление
     public ViolationEntity save(ViolationEntity violation) {
-        ViolationValidationUtils.validateViolation(violation);
+        ViolationValidationUtils.validateViolation(violation); // валидация
         return repo.save(violation);
     }
+
+    // удаление по id
     public void delete(Long id) {
         repo.deleteById(id);
     }
+
+    // все нарушения
     public Iterable<ViolationEntity> getAll() {
         return repo.findAll();
     }
+
+    // список нарушений владельца
     public Iterable<ViolationEntity> getAllByDriver(DriverEntity driver) {
         return repo.findAllByDriver(driver);
     }

@@ -5,5 +5,6 @@ import com.example.server.entity.ViolationEntity;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ViolationRepo extends CrudRepository<ViolationEntity, Long> {
+    // 10. список нарушений, совершенных ук. водителем
     Iterable<ViolationEntity> findAllByDriver(DriverEntity driver);
 }
