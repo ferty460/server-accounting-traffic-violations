@@ -2,6 +2,7 @@ package com.example.server.utils;
 
 import com.example.server.entity.DriverEntity;
 import com.example.server.exception.ValidationExceptionDriver;
+import com.example.server.repo.DriverRepo;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,38 @@ public class DriverValidationUtils {
             throw new ValidationExceptionDriver("Поле \"Дата рождения\" не соответствует формату (2023-05-05)");
         } else if (birthday.after(today) || birthday.before(max.getTime())) {
             throw new ValidationExceptionDriver("Не раньше сегодняшнего дня и не позже 01.01.1910");
+        }
+    }
+
+    public static void validatePassport(String series, String number) {
+        if (series == null || series.isBlank() || !(series.matches("[0-9]{4}"))) {
+            throw new ValidationExceptionDriver("Поле Серия паспорта не соответствует формату (1234)");
+        }
+        if (number == null || number.isBlank() || !(number.matches("[0-9]{6}"))) {
+            throw new ValidationExceptionDriver("Поле Номер паспорта не соответствует формату (1234)");
+        }
+    }
+
+    public static void validateCarNumber(String number) {
+        if (number == null || number.isBlank() || !(number.matches("[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}"))) {
+            throw new ValidationExceptionDriver("Поле Номер авто не соответствует формату (А111АА)");
+        }
+    }
+
+    // TODO: доделать
+    public static void validateDate(Date time) {
+        Date today = Calendar.getInstance().getTime();
+        if (time == null) {
+            throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05)");
+        } else if (time.after(today)) {
+            throw new ValidationExceptionDriver("Не раньше сегодняшнего дня");
+        }
+    }
+
+    // todo: доделать
+    public static void validateSum(Integer sum) {
+        if (sum.toString().matches("[a-zA-Zа-яА-Я]+")) {
+            throw new ValidationExceptionDriver("Не соответствует формату");
         }
     }
 }

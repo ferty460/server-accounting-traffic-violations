@@ -6,7 +6,10 @@ import com.example.server.entity.ViolationEntity;
 import com.example.server.response.*;
 import com.example.server.service.PenaltyService;
 import com.example.server.service.ViolationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +22,22 @@ public class PenaltyController {
 
     public PenaltyController(PenaltyService service) {
         this.service = service;
+    }
+
+    @ControllerAdvice
+    public class ErrAddController {
+        @ExceptionHandler(HttpMessageNotReadableException.class)
+        public ResponseEntity<String> handleException(HttpMessageNotReadableException exception) {
+            return new ResponseEntity(new BaseResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ControllerAdvice
+    public class ErrAllController {
+        @ExceptionHandler(MissingServletRequestParameterException.class)
+        public ResponseEntity<String> handleException(MissingServletRequestParameterException exception) {
+            return new ResponseEntity(new BaseResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // все штрафы

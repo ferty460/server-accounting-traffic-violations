@@ -5,11 +5,16 @@ import com.example.server.response.*;
 import com.example.server.service.DriverService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -64,7 +69,7 @@ public class DriverController {
 
     // 8. поиск по данным паспорта
     @GetMapping("/passport")
-    public ResponseEntity<BaseResponse> getByPassport(@RequestParam("series") String series, @RequestParam("number") String number) {
+    public ResponseEntity<BaseResponse> getByPassport(@RequestParam("series") @Pattern(regexp = "[0-9]{4}") String series, @RequestParam("number") String number) {
         try {
             DriverEntity data = service.getByPassport(series, number);
             return ResponseEntity.ok(new DriverResponse(true, "Водитель", data));
@@ -87,36 +92,60 @@ public class DriverController {
     // 6. поиск всех по дате нарушения
     @GetMapping("/violation")
     public ResponseEntity<BaseResponse> getAllByViolationTime(@RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time) {
-        return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(time)));
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(time)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // 5. сумма штрафов больше ук. значения
     @GetMapping("/penalties_sum")
-    public ResponseEntity<BaseResponse> getAllByViolationSumGreater(@RequestParam("n") int n) {
-        return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationSumGreater(n)));
+    public ResponseEntity<BaseResponse> getAllByViolationSumGreater(@RequestParam("n") Integer n) {
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationSumGreater(n)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // 4. больше одного нарушения
     @GetMapping("/violations_greater1")
     public ResponseEntity<BaseResponse> getAllByViolationsGreaterOne() {
-        return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationsCountGreaterOne()));
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationsCountGreaterOne()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // 3. список водителей с определенным нарушением
     @GetMapping("/violations")
     public ResponseEntity<BaseResponse> getAllByViolationKind(@RequestParam("kind") String kind) {
-        return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationKind(kind)));
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationKind(kind)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // 2. список водителей, оплативших часть штрафа
     @GetMapping("/paid_lessPenalty")
     public ResponseEntity<BaseResponse> getAllByPaidLessPenalty() {
-        return ResponseEntity.ok(new DriverListResponse(service.findByViolationsPaidNotFully()));
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.findByViolationsPaidNotFully()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // 1. список водителей, не оплативших штраф
     @GetMapping("/paid_equal0")
     public ResponseEntity<BaseResponse> getAllByPaidEqual0() {
-        return ResponseEntity.ok(new DriverListResponse(service.getAllByPaidEqual0()));
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByPaidEqual0()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 }

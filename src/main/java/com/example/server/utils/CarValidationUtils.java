@@ -10,7 +10,7 @@ public class CarValidationUtils {
             throw new ValidationExceptionCar("Поле \"Марка автомобиля\" не должно быть пустым");
         }
         String number = car.getNumber();
-        if (number == null || number.isBlank() || !(number.matches("[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}"))) {
+        if ( number == null || number.isBlank() || !(number.matches("[АВЕКМНОРСТУХ][0-9]{3}[АВЕКМНОРСТУХ]{2}"))) {
             throw new ValidationExceptionCar("Поле \"Номер автомобиля\" не соответствует формату (А111АА)");
         }
     }

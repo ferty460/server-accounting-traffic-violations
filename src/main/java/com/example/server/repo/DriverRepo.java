@@ -17,18 +17,11 @@ public interface DriverRepo extends CrudRepository<DriverEntity, Long> {
     DriverEntity findByCars_Number(String carNumber);
 
     // 6. поиск по дате нарушения
-    Iterable<DriverEntity> findByViolations_Time(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time);
+    Iterable<DriverEntity> findDistinctByViolations_Time(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time);
 
     // 5. сумма штрафов больше ук. значения
     @Query(nativeQuery = true,
-            value = "SELECT d.*" +
-                    "FROM driver d" +
-                    "WHERE (" +
-                        "SELECT SUM(p.penalty)" +
-                        "FROM violation v" +
-                        "JOIN penalty p ON v.penalty_id = p.penalty_id" +
-                        "WHERE v.driver_id = d.driver_id" +
-                    ") > :n")
+            value = "SELECT d.* FROM driver d WHERE ( SELECT SUM(p.penalty) FROM violation v JOIN penalty p ON v.penalty_id = p.penalty_id WHERE v.driver_id = d.driver_id ) > :n")
     Iterable<DriverEntity> getAllByViolationSumGreater(int n);
 
     // 4. больше одного нарушения
@@ -41,7 +34,7 @@ public interface DriverRepo extends CrudRepository<DriverEntity, Long> {
     Iterable<DriverEntity> getAllByViolationsCountGreaterOne();
 
     // 3. список водителей с определенным нарушением
-    Iterable<DriverEntity> findByViolations_PenaltyKind(String kind);
+    Iterable<DriverEntity> findDistinctByViolations_PenaltyKind(String kind);
 
     // 2. список водителей, оплативших часть штрафа
     @Query(nativeQuery = true,

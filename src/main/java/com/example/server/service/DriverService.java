@@ -34,21 +34,25 @@ public class DriverService {
 
     // 8. поиск по данным паспорта (серия, номер)
     public DriverEntity getByPassport(String series, String number) {
+        DriverValidationUtils.validatePassport(series, number);
         return repo.findByPassportSeriesAndPassportNumber(series, number);
     }
 
     // 7. поиск по номеру авто
     public DriverEntity getByCarNumber(String number) {
+        DriverValidationUtils.validateCarNumber(number);
         return repo.findByCars_Number(number);
     }
 
     // 6. поиск всех совершивших нарушение в ук. дату
     public Iterable<DriverEntity> getAllByViolationTime(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time) {
-        return repo.findByViolations_Time(time);
+        DriverValidationUtils.validateDate(time);
+        return repo.findDistinctByViolations_Time(time);
     }
 
     // 5. сумма штрафов больше ук. значения
-    public Iterable<DriverEntity> getAllByViolationSumGreater(int n) {
+    public Iterable<DriverEntity> getAllByViolationSumGreater(Integer n) {
+        DriverValidationUtils.validateSum(n);
         return repo.getAllByViolationSumGreater(n);
     }
 
@@ -59,7 +63,7 @@ public class DriverService {
 
     // 3. список водителей с определенным нарушением
     public Iterable<DriverEntity> getAllByViolationKind(String kind) {
-        return repo.findByViolations_PenaltyKind(kind);
+        return repo.findDistinctByViolations_PenaltyKind(kind);
     }
 
     // 2. список водителей, оплативших часть штрафа
