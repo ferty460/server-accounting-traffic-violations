@@ -24,22 +24,6 @@ public class PenaltyController {
         this.service = service;
     }
 
-    @ControllerAdvice
-    public class ErrAddController {
-        @ExceptionHandler(HttpMessageNotReadableException.class)
-        public ResponseEntity<String> handleException(HttpMessageNotReadableException exception) {
-            return new ResponseEntity(new BaseResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @ControllerAdvice
-    public class ErrAllController {
-        @ExceptionHandler(MissingServletRequestParameterException.class)
-        public ResponseEntity<String> handleException(MissingServletRequestParameterException exception) {
-            return new ResponseEntity(new BaseResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     // все штрафы
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> all() {

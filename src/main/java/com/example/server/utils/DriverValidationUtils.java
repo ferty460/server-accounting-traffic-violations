@@ -40,7 +40,7 @@ public class DriverValidationUtils {
             throw new ValidationExceptionDriver("Поле Серия паспорта не соответствует формату (1234)");
         }
         if (number == null || number.isBlank() || !(number.matches("[0-9]{6}"))) {
-            throw new ValidationExceptionDriver("Поле Номер паспорта не соответствует формату (1234)");
+            throw new ValidationExceptionDriver("Поле Номер паспорта не соответствует формату (123456)");
         }
     }
 
@@ -51,18 +51,17 @@ public class DriverValidationUtils {
     }
 
     // TODO: доделать
-    public static void validateDate(Date time) {
+    public static void validateDate(String time) {
         Date today = Calendar.getInstance().getTime();
-        if (time == null) {
+        if (time == null || !(time.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))) {
             throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05)");
-        } else if (time.after(today)) {
+        }/* else if (time.after(today)) {
             throw new ValidationExceptionDriver("Не раньше сегодняшнего дня");
-        }
+        }*/
     }
 
-    // todo: доделать
-    public static void validateSum(Integer sum) {
-        if (sum.toString().matches("[a-zA-Zа-яА-Я]+")) {
+    public static void validateSum(String sum) {
+        if (sum == null || !(sum.matches("[0-9]{2,10}"))) {
             throw new ValidationExceptionDriver("Не соответствует формату");
         }
     }

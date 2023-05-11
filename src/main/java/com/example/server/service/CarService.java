@@ -2,9 +2,12 @@ package com.example.server.service;
 
 import com.example.server.entity.CarEntity;
 import com.example.server.entity.DriverEntity;
+import com.example.server.exception.ValidationExceptionDriver;
 import com.example.server.repo.CarRepo;
 import com.example.server.utils.CarValidationUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Spliterator;
 
 @Service
 public class CarService {
@@ -31,7 +34,15 @@ public class CarService {
     }
 
     // поиск по водителю
-    public Iterable<CarEntity> getAllByDriver(DriverEntity driver) {
-        return repo.findAllByDriver(driver);
+    public Iterable<CarEntity> getAllByDriver(String driver) {
+        CarValidationUtils.validateDriver(driver);
+        int d = Integer.parseInt(driver);
+        Iterable<CarEntity> cars = repo.findAllByDriver_Id(d);
+        Spliterator spliterator = cars.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Автомобилей нет");
+        } else {
+            return repo.findAllByDriver_Id(d);
+        }
     }
 }

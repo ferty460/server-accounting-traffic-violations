@@ -15,7 +15,7 @@ Driver:
 [GET]       http://localhost:2825/api/v1/driver/passport?series=1234&number=123456
 
             поиск по номеру авто:
-[GET]       http://localhost:2825/api/v1/driver/car?number=A089PO
+[GET]       http://localhost:2825/api/v1/driver/car?number=А089РО
 
             поиск всех по дате нарушения:
 [GET]       http://localhost:2825/api/v1/driver/violation?time=2020-03-23

@@ -91,7 +91,7 @@ public class DriverController {
 
     // 6. поиск всех по дате нарушения
     @GetMapping("/violation")
-    public ResponseEntity<BaseResponse> getAllByViolationTime(@RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time) {
+    public ResponseEntity<BaseResponse> getAllByViolationTime(@RequestParam("time") String time) {
         try {
             return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(time)));
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class DriverController {
 
     // 5. сумма штрафов больше ук. значения
     @GetMapping("/penalties_sum")
-    public ResponseEntity<BaseResponse> getAllByViolationSumGreater(@RequestParam("n") Integer n) {
+    public ResponseEntity<BaseResponse> getAllByViolationSumGreater(@RequestParam("n") String n) {
         try {
             return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationSumGreater(n)));
         } catch (Exception e) {

@@ -1,12 +1,15 @@
 package com.example.server.service;
 
 import com.example.server.entity.DriverEntity;
+import com.example.server.exception.ValidationExceptionDriver;
 import com.example.server.repo.DriverRepo;
 import com.example.server.utils.DriverValidationUtils;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Spliterator;
 
 @Service
 public class DriverService {
@@ -35,44 +38,89 @@ public class DriverService {
     // 8. поиск по данным паспорта (серия, номер)
     public DriverEntity getByPassport(String series, String number) {
         DriverValidationUtils.validatePassport(series, number);
-        return repo.findByPassportSeriesAndPassportNumber(series, number);
+        if (repo.findByPassportSeriesAndPassportNumber(series, number) == null) {
+            throw new ValidationExceptionDriver("Водителя с такими паспортными данными нет");
+        } else {
+            return repo.findByPassportSeriesAndPassportNumber(series, number);
+        }
     }
 
     // 7. поиск по номеру авто
     public DriverEntity getByCarNumber(String number) {
         DriverValidationUtils.validateCarNumber(number);
-        return repo.findByCars_Number(number);
+        if (repo.findByCars_Number(number) == null) {
+            throw new ValidationExceptionDriver("Автомобиля с номером " + number + " нет");
+        } else {
+            return repo.findByCars_Number(number);
+        }
     }
 
-    // 6. поиск всех совершивших нарушение в ук. дату
-    public Iterable<DriverEntity> getAllByViolationTime(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time) {
-        DriverValidationUtils.validateDate(time);
-        return repo.findDistinctByViolations_Time(time);
+    // 6. поиск всех совершивших нарушение в ук. дату todo: доделать
+    public Iterable<DriverEntity> getAllByViolationTime(String date) throws ParseException {
+        DriverValidationUtils.validateDate(date);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date time = format.parse(date);
+        if (repo.findDistinctByViolations_Time(time) == null) {
+            throw new ValidationExceptionDriver("В эту дату нарушений не замечалось");
+        } else {
+            return repo.findDistinctByViolations_Time(time);
+        }
     }
 
     // 5. сумма штрафов больше ук. значения
-    public Iterable<DriverEntity> getAllByViolationSumGreater(Integer n) {
+    public Iterable<DriverEntity> getAllByViolationSumGreater(String n) {
         DriverValidationUtils.validateSum(n);
-        return repo.getAllByViolationSumGreater(n);
+        int a = Integer.parseInt(n);
+        Iterable<DriverEntity> drivers = repo.getAllByViolationSumGreater(a);
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Водителей, чья сумма всех имеющихся у них нарушений превышает " + n + ", нет");
+        } else {
+            return repo.getAllByViolationSumGreater(a);
+        }
     }
 
     // 4. больше одного нарушения
     public Iterable<DriverEntity> getAllByViolationsCountGreaterOne() {
-        return repo.getAllByViolationsCountGreaterOne();
+        Iterable<DriverEntity> drivers = repo.getAllByViolationsCountGreaterOne();
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Водителей с больше, чем одно нарушение, нет");
+        } else {
+            return repo.getAllByViolationsCountGreaterOne();
+        }
     }
 
     // 3. список водителей с определенным нарушением
     public Iterable<DriverEntity> getAllByViolationKind(String kind) {
-        return repo.findDistinctByViolations_PenaltyKind(kind);
+        Iterable<DriverEntity> drivers = repo.findDistinctByViolations_PenaltyKind(kind);
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Водителей с таким нарушением нет");
+        } else {
+            return repo.findDistinctByViolations_PenaltyKind(kind);
+        }
     }
 
     // 2. список водителей, оплативших часть штрафа
     public Iterable<DriverEntity> findByViolationsPaidNotFully() {
-        return repo.findByViolationsPaidNotFully();
+        Iterable<DriverEntity> drivers = repo.findByViolationsPaidNotFully();
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Водителей, оплативших только часть штрафа, нет");
+        } else {
+            return repo.findByViolationsPaidNotFully();
+        }
     }
 
     // 1. список водителей, не оплативших штраф
     public Iterable<DriverEntity> getAllByPaidEqual0() {
-        return repo.findByViolations_PaidEquals(0);
+        Iterable<DriverEntity> drivers = repo.findDistinctByViolations_PaidEquals(0);
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Водителей, не оплативших штраф, нет");
+        } else {
+            return repo.findDistinctByViolations_PaidEquals(0);
+        }
     }
 }

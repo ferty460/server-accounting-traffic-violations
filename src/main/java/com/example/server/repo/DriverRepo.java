@@ -46,5 +46,5 @@ public interface DriverRepo extends CrudRepository<DriverEntity, Long> {
     Iterable<DriverEntity> findByViolationsPaidNotFully();
 
     // 1. список водителей, не оплативших штраф
-    Iterable<DriverEntity> findByViolations_PaidEquals(int paid);
+    Iterable<DriverEntity> findDistinctByViolations_PaidEquals(int paid);
 }

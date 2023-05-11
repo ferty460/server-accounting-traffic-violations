@@ -26,22 +26,6 @@ public class CarController {
         this.service = service;
     }
 
-    @ControllerAdvice
-    public class ErrAddController {
-        @ExceptionHandler(HttpMessageNotReadableException.class)
-        public ResponseEntity<String> handleException(HttpMessageNotReadableException exception) {
-            return new ResponseEntity(new BaseResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @ControllerAdvice
-    public class ErrAllController {
-        @ExceptionHandler(MissingServletRequestParameterException.class)
-        public ResponseEntity<String> handleException(MissingServletRequestParameterException exception) {
-            return new ResponseEntity(new BaseResponse(false, exception.getMessage()), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     // все авто
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAll() {
@@ -83,7 +67,12 @@ public class CarController {
 
     // список авто, принадлежащих какому-либо водителю
     @GetMapping("/all_byDriver")
-    public ResponseEntity<BaseResponse> getAllByDriver(@RequestParam("id") DriverEntity driver) {
-        return ResponseEntity.ok(new CarListResponse(service.getAllByDriver(driver)));
+    public ResponseEntity<BaseResponse> getAllByDriver(@RequestParam("id") String driver) {
+        try {
+            return ResponseEntity.ok(new CarListResponse(service.getAllByDriver(driver)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
+
     }
 }
