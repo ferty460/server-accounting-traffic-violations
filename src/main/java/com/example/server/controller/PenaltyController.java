@@ -43,9 +43,9 @@ public class PenaltyController {
 
     // удаление по id
     @DeleteMapping("/delete")
-    public ResponseEntity<BaseResponse> delete(@RequestParam("id") PenaltyEntity data) {
+    public ResponseEntity<BaseResponse> delete(@RequestParam("id") String data) {
         try {
-            service.delete(data.getPenalty_Id());
+            service.delete(data);
             return ResponseEntity.ok(new BaseResponse(true, "Штраф удален"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));

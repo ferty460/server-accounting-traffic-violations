@@ -5,6 +5,7 @@ import com.example.server.entity.DriverEntity;
 import com.example.server.exception.ValidationExceptionDriver;
 import com.example.server.repo.CarRepo;
 import com.example.server.utils.CarValidationUtils;
+import com.example.server.utils.DriverValidationUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Spliterator;
@@ -24,7 +25,9 @@ public class CarService {
     }
 
     // удаление по id
-    public void delete(Long id) {
+    public void delete(String n) {
+        DriverValidationUtils.validateDelete(n);
+        Long id = Long.parseLong(n);
         repo.deleteById(id);
     }
 

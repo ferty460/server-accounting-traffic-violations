@@ -42,9 +42,9 @@ public class ViolationController {
 
     // удаление по id
     @DeleteMapping("/delete")
-    public ResponseEntity<BaseResponse> delete(@RequestParam("id") ViolationEntity data) {
+    public ResponseEntity<BaseResponse> delete(@RequestParam("id") String data) {
         try {
-            service.delete(data.getViolation_Id());
+            service.delete(data);
             return ResponseEntity.ok(new BaseResponse(true, "Нарушение удалено"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));

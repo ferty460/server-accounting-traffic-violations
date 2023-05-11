@@ -52,17 +52,20 @@ public class DriverValidationUtils {
 
     // TODO: доделать
     public static void validateDate(String time) {
-        Date today = Calendar.getInstance().getTime();
         if (time == null || !(time.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))) {
             throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05)");
-        }/* else if (time.after(today)) {
-            throw new ValidationExceptionDriver("Не раньше сегодняшнего дня");
-        }*/
+        }
     }
 
     public static void validateSum(String sum) {
         if (sum == null || !(sum.matches("[0-9]{2,10}"))) {
             throw new ValidationExceptionDriver("Не соответствует формату");
+        }
+    }
+
+    public static void validateDelete(String id) {
+        if (!id.matches("[0-9]+")) {
+            throw new ValidationExceptionDriver("Не соответствует формату id");
         }
     }
 }

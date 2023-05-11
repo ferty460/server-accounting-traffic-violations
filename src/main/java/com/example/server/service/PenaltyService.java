@@ -6,6 +6,8 @@ import com.example.server.utils.DriverValidationUtils;
 import com.example.server.utils.PenaltyValidationUtils;
 import org.springframework.stereotype.Service;
 
+import java.sql.Driver;
+
 @Service
 public class PenaltyService {
 
@@ -21,7 +23,9 @@ public class PenaltyService {
     }
 
     // удаление по id
-    public void delete(Long id) {
+    public void delete(String n) {
+        DriverValidationUtils.validateDelete(n);
+        Long id = Long.parseLong(n);
         repo.deleteById(id);
     }
 

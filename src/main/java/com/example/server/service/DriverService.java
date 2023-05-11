@@ -4,11 +4,16 @@ import com.example.server.entity.DriverEntity;
 import com.example.server.exception.ValidationExceptionDriver;
 import com.example.server.repo.DriverRepo;
 import com.example.server.utils.DriverValidationUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Spliterator;
 
 @Service
@@ -26,7 +31,9 @@ public class DriverService {
     }
 
     // удаление по id
-    public void delete(Long id) {
+    public void delete(String n) {
+        DriverValidationUtils.validateDelete(n);
+        Long id = Long.parseLong(n);
         repo.deleteById(id);
     }
 
@@ -56,14 +63,15 @@ public class DriverService {
     }
 
     // 6. поиск всех совершивших нарушение в ук. дату todo: доделать
-    public Iterable<DriverEntity> getAllByViolationTime(String date) throws ParseException {
-        DriverValidationUtils.validateDate(date);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date time = format.parse(date);
-        if (repo.findDistinctByViolations_Time(time) == null) {
+    public Iterable<DriverEntity> getAllByViolationTime(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) throws ParseException {
+        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        // DriverValidationUtils.validateDate(format.format(date));
+        Iterable<DriverEntity> drivers = repo.findDistinctByViolations_Time(date);
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
             throw new ValidationExceptionDriver("В эту дату нарушений не замечалось");
         } else {
-            return repo.findDistinctByViolations_Time(time);
+            return repo.findDistinctByViolations_Time(date);
         }
     }
 

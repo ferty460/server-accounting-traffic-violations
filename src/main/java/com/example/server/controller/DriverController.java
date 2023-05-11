@@ -3,19 +3,15 @@ package com.example.server.controller;
 import com.example.server.entity.DriverEntity;
 import com.example.server.response.*;
 import com.example.server.service.DriverService;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
+import com.example.server.utils.DriverValidationUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @RestController
@@ -47,9 +43,9 @@ public class DriverController {
 
     // удаление по id
     @DeleteMapping("/delete")
-    public ResponseEntity<BaseResponse> delete(@RequestParam("id") DriverEntity data) {
+    public ResponseEntity<BaseResponse> delete(@RequestParam("id") String data) {
         try {
-            service.delete(data.getDriver_Id());
+            service.delete(data);
             return ResponseEntity.ok(new BaseResponse(true, "Водитель удален"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
@@ -93,7 +89,11 @@ public class DriverController {
     @GetMapping("/violation")
     public ResponseEntity<BaseResponse> getAllByViolationTime(@RequestParam("time") String time) {
         try {
-            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(time)));
+            DriverValidationUtils.validateDate(time);
+            SimpleDateFormat simpleCustomFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleCustomFormatter.parse(time);
+            System.out.println(date);
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(date)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }
