@@ -9,6 +9,7 @@ import com.example.server.repo.ViolationRepo;
 import com.example.server.utils.CarValidationUtils;
 import com.example.server.utils.DriverValidationUtils;
 import com.example.server.utils.ViolationValidationUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Spliterator;
@@ -29,14 +30,24 @@ public class ViolationService {
 
     // удаление по id
     public void delete(String n) {
-        DriverValidationUtils.validateDelete(n);
-        Long id = Long.parseLong(n);
-        repo.deleteById(id);
+        try {
+            DriverValidationUtils.validateDelete(n);
+            Long id = Long.parseLong(n);
+            repo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ValidationExceptionDriver("Нарушения с данным id несуществует");
+        }
     }
 
     // все нарушения
     public Iterable<ViolationEntity> getAll() {
-        return repo.findAll();
+        Iterable<ViolationEntity> violations = repo.findAll();
+        Spliterator spliterator = violations.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Нарушений нет");
+        } else {
+            return repo.findAll();
+        }
     }
 
     // список нарушений владельца

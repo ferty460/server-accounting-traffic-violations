@@ -4,6 +4,7 @@ import com.example.server.entity.DriverEntity;
 import com.example.server.response.*;
 import com.example.server.service.DriverService;
 import com.example.server.utils.DriverValidationUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,11 @@ public class DriverController {
     // все водители
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAll() {
-        return ResponseEntity.ok(new DriverListResponse(service.getAll()));
+        try {
+            return ResponseEntity.ok(new DriverListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // добавление
@@ -90,9 +95,9 @@ public class DriverController {
     public ResponseEntity<BaseResponse> getAllByViolationTime(@RequestParam("time") String time) {
         try {
             DriverValidationUtils.validateDate(time);
-            SimpleDateFormat simpleCustomFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat simpleCustomFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date = simpleCustomFormatter.parse(time);
-            System.out.println(date);
+            System.out.println(simpleCustomFormatter.format(date));
             return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(date)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));

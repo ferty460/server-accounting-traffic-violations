@@ -10,6 +10,11 @@ import java.util.GregorianCalendar;
 
 public class DriverValidationUtils {
     public static void validateDriver(DriverEntity driver) throws ValidationExceptionDriver {
+        String id = driver.getDriver_Id().toString();
+        if (!id.matches("[0-9]+")) {
+            throw new ValidationExceptionDriver("Не соответствует формату id");
+        }
+
         String fullName = driver.getFullName();
         if (fullName == null || fullName.isBlank() || !(fullName.matches("[А-Я][а-я]{3,15}\s[А-Я][а-я]{3,15}\s[А-Я][а-я]{3,19}"))) {
             throw new ValidationExceptionDriver("Поле \"ФИО\" не соответствует формату (Иванов Иван Иванович)");
@@ -50,10 +55,9 @@ public class DriverValidationUtils {
         }
     }
 
-    // TODO: доделать
     public static void validateDate(String time) {
-        if (time == null || !(time.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))) {
-            throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05)");
+        if (time == null || !(time.matches("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
+            throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05 03:00:00)");
         }
     }
 

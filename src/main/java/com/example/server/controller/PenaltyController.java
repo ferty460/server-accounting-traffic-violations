@@ -27,7 +27,11 @@ public class PenaltyController {
     // все штрафы
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> all() {
-        return ResponseEntity.ok(new PenaltyListResponse(service.getAll()));
+        try {
+            return ResponseEntity.ok(new PenaltyListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // добавление

@@ -2,10 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.entity.CarEntity;
 import com.example.server.entity.DriverEntity;
-import com.example.server.response.BaseResponse;
-import com.example.server.response.CarListResponse;
-import com.example.server.response.CarResponse;
-import com.example.server.response.DriverResponse;
+import com.example.server.response.*;
 import com.example.server.service.CarService;
 import com.example.server.utils.CarValidationUtils;
 import org.springframework.http.HttpStatus;
@@ -29,7 +26,11 @@ public class CarController {
     // все авто
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> getAll() {
-        return ResponseEntity.ok(new CarListResponse(service.getAll()));
+        try {
+            return ResponseEntity.ok(new CarListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // добавление

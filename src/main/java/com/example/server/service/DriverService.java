@@ -1,19 +1,14 @@
 package com.example.server.service;
 
 import com.example.server.entity.DriverEntity;
+import com.example.server.entity.ViolationEntity;
 import com.example.server.exception.ValidationExceptionDriver;
 import com.example.server.repo.DriverRepo;
 import com.example.server.utils.DriverValidationUtils;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Spliterator;
 
 @Service
@@ -26,20 +21,30 @@ public class DriverService {
 
     // добавление
     public DriverEntity save(DriverEntity driver) {
-        DriverValidationUtils.validateDriver(driver); // валидация
+        DriverValidationUtils.validateDriver(driver);
         return repo.save(driver);
     }
 
     // удаление по id
     public void delete(String n) {
-        DriverValidationUtils.validateDelete(n);
-        Long id = Long.parseLong(n);
-        repo.deleteById(id);
+        try {
+            DriverValidationUtils.validateDelete(n);
+            Long id = Long.parseLong(n);
+            repo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ValidationExceptionDriver("Водителя с данным id несуществует");
+        }
     }
 
     // все водители
     public Iterable<DriverEntity> getAll() {
-        return repo.findAll();
+        Iterable<DriverEntity> drivers = repo.findAll();
+        Spliterator spliterator = drivers.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Водителей нет");
+        } else {
+            return repo.findAll();
+        }
     }
 
     // 8. поиск по данным паспорта (серия, номер)
@@ -63,9 +68,7 @@ public class DriverService {
     }
 
     // 6. поиск всех совершивших нарушение в ук. дату todo: доделать
-    public Iterable<DriverEntity> getAllByViolationTime(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) throws ParseException {
-        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        // DriverValidationUtils.validateDate(format.format(date));
+    public Iterable<DriverEntity> getAllByViolationTime(Date date) {
         Iterable<DriverEntity> drivers = repo.findDistinctByViolations_Time(date);
         Spliterator spliterator = drivers.spliterator();
         if (spliterator.estimateSize() == 0) {

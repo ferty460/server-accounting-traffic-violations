@@ -6,6 +6,7 @@ import com.example.server.exception.ValidationExceptionDriver;
 import com.example.server.repo.CarRepo;
 import com.example.server.utils.CarValidationUtils;
 import com.example.server.utils.DriverValidationUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Spliterator;
@@ -26,14 +27,24 @@ public class CarService {
 
     // удаление по id
     public void delete(String n) {
-        DriverValidationUtils.validateDelete(n);
-        Long id = Long.parseLong(n);
-        repo.deleteById(id);
+        try {
+            DriverValidationUtils.validateDelete(n);
+            Long id = Long.parseLong(n);
+            repo.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ValidationExceptionDriver("Автомобиля с данным id несуществует");
+        }
     }
 
     // все авто
     public Iterable<CarEntity> getAll() {
-        return repo.findAll();
+        Iterable<CarEntity> cars = repo.findAll();
+        Spliterator spliterator = cars.spliterator();
+        if (spliterator.estimateSize() == 0) {
+            throw new ValidationExceptionDriver("Автомобилей нет");
+        } else {
+            return repo.findAll();
+        }
     }
 
     // поиск по водителю

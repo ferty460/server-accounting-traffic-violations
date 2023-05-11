@@ -3,12 +3,9 @@ package com.example.server.repo;
 import com.example.server.entity.DriverEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.Optional;
 
 public interface DriverRepo extends CrudRepository<DriverEntity, Long> {
     // 8. поиск по данным паспорта

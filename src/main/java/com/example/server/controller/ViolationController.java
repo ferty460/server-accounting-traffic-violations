@@ -26,7 +26,11 @@ public class ViolationController {
     // все водители
     @GetMapping("/all")
     public ResponseEntity<BaseResponse> all() {
-        return ResponseEntity.ok(new ViolationListResponse(service.getAll()));
+        try {
+            return ResponseEntity.ok(new ViolationListResponse(service.getAll()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
+        }
     }
 
     // добавление
