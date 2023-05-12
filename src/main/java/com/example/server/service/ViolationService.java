@@ -10,6 +10,7 @@ import com.example.server.utils.CarValidationUtils;
 import com.example.server.utils.DriverValidationUtils;
 import com.example.server.utils.ViolationValidationUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import java.util.Spliterator;

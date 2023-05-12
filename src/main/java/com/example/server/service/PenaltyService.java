@@ -22,7 +22,7 @@ public class PenaltyService {
 
     // добавление
     public PenaltyEntity save(PenaltyEntity penalty) {
-        PenaltyValidationUtils.validatePenalty(penalty); // валидация
+        PenaltyValidationUtils.validatePenalty(penalty);
         return repo.save(penalty);
     }
 

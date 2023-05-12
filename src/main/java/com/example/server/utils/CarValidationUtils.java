@@ -22,10 +22,4 @@ public class CarValidationUtils {
             throw new ValidationExceptionDriver("Не соответствует формату id");
         }
     }
-
-    public static void validateDelete(String id) {
-        if (!id.matches("[0-9]+")) {
-            throw new ValidationExceptionDriver("Не соответствует формату id");
-        }
-    }
 }

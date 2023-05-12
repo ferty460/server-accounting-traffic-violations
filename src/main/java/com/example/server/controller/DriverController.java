@@ -61,7 +61,7 @@ public class DriverController {
     @PostMapping("/update")
     public ResponseEntity<BaseResponse> update(@RequestBody DriverEntity data) {
         try {
-            service.save(data);
+            service.edit(data);
             return ResponseEntity.ok(new DriverResponse(true, "В данные об автомобиле внесены изменения", data));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));

@@ -40,7 +40,7 @@ public class ViolationController {
             ViolationEntity temp = service.save(data);
             return ResponseEntity.ok(new ViolationResponse(true, "Нарушение добавлено", temp));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ViolationResponse(false, e.getMessage(), null));
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }
     }
 

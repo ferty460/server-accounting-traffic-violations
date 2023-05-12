@@ -25,6 +25,13 @@ public class DriverService {
         return repo.save(driver);
     }
 
+    // редактирование
+    public DriverEntity edit(DriverEntity driver) {
+        DriverValidationUtils.validateDriver(driver);
+        DriverValidationUtils.validateId(driver);
+        return repo.save(driver);
+    }
+
     // удаление по id
     public void delete(String n) {
         try {
