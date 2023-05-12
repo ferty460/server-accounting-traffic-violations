@@ -41,7 +41,7 @@ public class PenaltyController {
             PenaltyEntity temp = service.save(data);
             return ResponseEntity.ok(new PenaltyResponse(true, "Штраф добавлен", temp));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new PenaltyResponse(false, e.getMessage(), null));
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }
     }
 

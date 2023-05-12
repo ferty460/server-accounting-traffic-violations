@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 @RestController
@@ -42,7 +43,7 @@ public class DriverController {
             DriverEntity temp = service.save(data);
             return ResponseEntity.ok(new DriverResponse(true, "Водитель добавлен", temp));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new DriverResponse(false, e.getMessage(), null));
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }
     }
 
@@ -95,10 +96,16 @@ public class DriverController {
     public ResponseEntity<BaseResponse> getAllByViolationTime(@RequestParam("time") String time) {
         try {
             DriverValidationUtils.validateDate(time);
-            SimpleDateFormat simpleCustomFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat simpleCustomFormatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = simpleCustomFormatter.parse(time);
             System.out.println(simpleCustomFormatter.format(date));
-            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(date)));
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String str = time.concat(" 03:00:00");
+            Date date1 = simpleDateFormat.parse(str);
+            System.out.println(simpleDateFormat.format(date1));
+
+            return ResponseEntity.ok(new DriverListResponse(service.getAllByViolationTime(date1)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }

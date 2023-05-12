@@ -59,8 +59,8 @@ public class DriverValidationUtils {
     }
 
     public static void validateDate(String time) {
-        if (time == null || !(time.matches("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"))) {
-            throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05 03:00:00)");
+        if (time == null || !(time.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))) {
+            throw new ValidationExceptionDriver("Поле time не соответствует формату (2023-05-05)");
         }
     }
 
