@@ -40,7 +40,7 @@ public class CarController {
             CarEntity temp = service.save(data);
             return ResponseEntity.ok(new CarResponse(true, "Автомобиль добавлен", temp));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new CarResponse(false, e.getMessage(), null));
+            return ResponseEntity.badRequest().body(new BaseResponse(false, e.getMessage()));
         }
     }
 
